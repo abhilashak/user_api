@@ -2,45 +2,55 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = users(:one)  # Assuming we have a fixture
+    @valid_user = users(:one)
   end
 
-  test "should be valid with name and biography" do
-    assert @user.valid?
+  # Validation Tests
+  test "valid user with required attributes" do
+    assert @valid_user.valid?
   end
 
-  test "should require name" do
-    @user.name = nil
-    refute @user.valid?
-    assert_includes @user.errors[:name], "can't be blank"
+  test "invalid without name" do
+    @valid_user.name = nil
+    refute @valid_user.valid?
+    assert_includes @valid_user.errors[:name], "can't be blank"
   end
 
-  test "should require biography" do
-    @user.biography = nil
-    refute @user.valid?
-    assert_includes @user.errors[:biography], "can't be blank"
+  test "invalid without biography" do
+    @valid_user.biography = nil
+    refute @valid_user.valid?
+    assert_includes @valid_user.errors[:biography], "can't be blank"
   end
 
-  test "random_user should return a user when users exist" do
-    assert_not_nil User.random_user
-    assert_instance_of User, User.random_user
-  end
-
-  test "random_user should return nil when no users exist" do
-    User.delete_all
+  # Random User Tests
+  test "random_user returns nil when database is empty" do
+    ensure_empty_database
     assert_nil User.random_user
   end
 
-  test "random_user should return one of the existing users" do
-    User.delete_all # Start with a clean slate
+  test "random_user returns a valid user instance" do
+    assert_instance_of User, User.random_user
+  end
 
-    # Create two users
-    user1 = User.create!(name: "User 1", biography: "Bio 1")
-    user2 = User.create!(name: "User 2", biography: "Bio 2")
+  test "random_user returns one of the existing users" do
+    ensure_empty_database
+    users = create_test_users
 
-    # Get a random user and verify it's one of our created users
-    random_user_id = User.random_user.id
-    assert_includes [ user1.id, user2.id ], random_user_id,
-      "Random user ID should be one of the created user IDs"
+    random_user = User.random_user
+    assert_includes users.map(&:id), random_user.id,
+      "Random user should be one of the test users"
+  end
+
+  private
+
+  def ensure_empty_database
+    User.delete_all
+  end
+
+  def create_test_users
+    [
+      User.create!(name: "Test User 1", biography: "Bio 1"),
+      User.create!(name: "Test User 2", biography: "Bio 2")
+    ]
   end
 end
