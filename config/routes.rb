@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   get "/id", to: "uuid#show"
+  get "/user", to: "users#show"
 end
