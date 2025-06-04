@@ -12,13 +12,7 @@ class UsersController < ApplicationController
     @user = User.random_user
 
     if @user
-      render json: {
-        id: @user.id,
-        name: @user.name,
-        biography: @user.biography,
-        created_at: @user.created_at.iso8601,
-        updated_at: @user.updated_at.iso8601
-      }, status: :ok
+      render json: UserSerializer.serialize(@user), status: :ok
     else
       render json: { error: "No users found" }, status: :not_found
     end
@@ -36,13 +30,7 @@ class UsersController < ApplicationController
     return random_failure if simulate_failure?
 
     if @user.save
-      render json: {
-        id: @user.id,
-        name: @user.name,
-        biography: @user.biography,
-        created_at: @user.created_at.iso8601,
-        updated_at: @user.updated_at.iso8601
-      }, status: :ok
+      render json: UserSerializer.serialize(@user), status: :ok
     else
       validation_error(@user)
     end

@@ -23,13 +23,4 @@ class Camille::Schemas::Users < Camille::Schema
     )
     response(User | { error: String })
   end
-
-  # get :data do
-  #   params(
-  #     id: Number
-  #   )
-  #   response(
-  #     name: String
-  #   )
-  # end
 end
