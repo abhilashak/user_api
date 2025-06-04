@@ -26,8 +26,11 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+gem "rack-cors"
+
+# Use Camille for generating TypeScript API clients
+gem "camille"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
