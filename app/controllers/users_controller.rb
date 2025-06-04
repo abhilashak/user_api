@@ -9,9 +9,10 @@ class UsersController < ApplicationController
   #     "biography": "A software engineer with a passion for building great APIs"
   #   }
   def show
-    # Simulate ~300ms response time as per requirements
-    # Using 0.25 to account for Rails processing overhead
-    sleep(0.25)
+    # Simulate response time while staying under 300ms requirement
+    # Using 0.2 seconds to ensure total response time stays under 300ms
+    # accounting for Rails processing overhead
+    sleep(0.2)
 
     render json: {
       id: SecureRandom.uuid,
