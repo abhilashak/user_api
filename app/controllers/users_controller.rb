@@ -9,10 +9,7 @@ class UsersController < ApplicationController
   #     "biography": "Full-stack developer..."
   #   }
   def show
-    # Get a random user efficiently using PostgreSQL's RANDOM()
-    # Using OFFSET instead of ORDER BY RANDOM() for better performance with large datasets
-    offset = rand(User.count)
-    @user = User.offset(offset).first
+    @user = User.random_user
 
     if @user
       render json: @user, status: :ok
@@ -29,21 +26,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if !@user.valid?
-      render json: { errors: @user.errors }, status: :unprocessable_entity
-      return
-    end
+    return validation_error(@user) unless @user.valid?
+    return random_failure if simulate_failure?
 
-    # Simulate random failure 50% of the time
-    if rand(2) == 1
-      if @user.save
-        render json: @user, status: :ok
-      else
-        render json: { errors: @user.errors }, status: :unprocessable_entity
-      end
+    if @user.save
+      render json: @user, status: :ok
     else
-      render json: { error: "Failed to save user (random failure simulation)" },
-             status: :unprocessable_entity
+      validation_error(@user)
     end
   end
 
