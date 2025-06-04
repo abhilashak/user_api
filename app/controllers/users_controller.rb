@@ -1,23 +1,23 @@
 class UsersController < ApplicationController
   # GET /user
-  # Returns mock user details with id, name, and biography
+  # Returns a random user's details from the database
   # @return [JSON] Returns a JSON object containing user details
   # Example Response:
   #   {
   #     "id": "123e4567-e89b-12d3-a456-426614174000",
   #     "name": "John Doe",
-  #     "biography": "A software engineer with a passion for building great APIs"
+  #     "biography": "Full-stack developer..."
   #   }
   def show
-    # Simulate response time while staying under 300ms requirement
-    # Using 0.2 seconds to ensure total response time stays under 300ms
-    # accounting for Rails processing overhead
-    sleep(0.2)
+    # Get a random user efficiently using PostgreSQL's RANDOM()
+    # Using OFFSET instead of ORDER BY RANDOM() for better performance with large datasets
+    offset = rand(User.count)
+    @user = User.offset(offset).first
 
-    render json: {
-      id: SecureRandom.uuid,
-      name: "John Doe",
-      biography: "A software engineer with a passion for building great APIs"
-    }, status: :ok
+    if @user
+      render json: @user, status: :ok
+    else
+      render json: { error: "No users found" }, status: :not_found
+    end
   end
 end
