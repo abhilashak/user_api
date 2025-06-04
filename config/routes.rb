@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   get "/id", to: "uuid#show"
   get "/user", to: "users#show"
+  post "/user", to: "users#create"
 end
