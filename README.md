@@ -31,9 +31,7 @@ A Ruby on Rails API service that provides user management functionality with sim
   {
     "id": "123e4567-e89b-12d3-a456-426614174000",
     "name": "John Doe",
-    "biography": "Software engineer...",
-    "created_at": "2024-01-01T12:00:00.000Z",
-    "updated_at": "2024-01-01T12:00:00.000Z"
+    "biography": "Software engineer..."
   }
   ```
 
@@ -141,5 +139,6 @@ The project includes GitHub Actions workflows for:
 
 - The application uses UUID for primary keys
 - Includes comprehensive test coverage
+- Uses Github Actions CI/CD
 - Follows Rails API-only configuration
 - Implements proper error handling
