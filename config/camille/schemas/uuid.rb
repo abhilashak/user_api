@@ -9,4 +9,4 @@ class Camille::Schemas::Uuid < Camille::Schema
       id: String
     )
   end
-end 
+end
