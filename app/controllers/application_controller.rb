@@ -5,7 +5,9 @@ class ApplicationController < ActionController::API
   # @param [ActiveRecord::Base] resource The resource with validation errors
   def validation_error(resource = nil)
     resource ||= @resource
-    render json: { errors: resource.errors }, status: :unprocessable_entity
+    # Convert validation errors to single error message for Camille compatibility
+    error_messages = resource.errors.full_messages.join(", ")
+    render json: { error: error_messages }, status: :unprocessable_entity
   end
 
   # Renders a random failure response for simulation purposes

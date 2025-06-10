@@ -13,7 +13,7 @@ class UserEndpointTest < ActionDispatch::IntegrationTest
     assert_includes response_body.keys, "biography"
 
     # Validate UUID format (PostgreSQL format)
-    assert_match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, response_body["id"])
+    assert_valid_uuid(response_body["id"])
 
     # Validate data types
     assert_kind_of String, response_body["name"]

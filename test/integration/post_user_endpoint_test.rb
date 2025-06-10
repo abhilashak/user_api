@@ -23,7 +23,7 @@ class PostUserEndpointTest < ActionDispatch::IntegrationTest
       assert_equal @valid_user_params[:biography], response_body["biography"]
 
       # Verify UUID format
-      assert_match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, response_body["id"])
+      assert_valid_uuid(response_body["id"])
     else
       # Random failure case
       assert_response :unprocessable_entity
@@ -39,9 +39,9 @@ class PostUserEndpointTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
 
     response_body = JSON.parse(@response.body)
-    assert_includes response_body.keys, "errors"
-    assert_includes response_body["errors"]["name"], "can't be blank"
-    assert_includes response_body["errors"]["biography"], "can't be blank"
+    assert_includes response_body.keys, "error"
+    # Now we get a combined error message string
+    assert_includes response_body["error"], "can't be blank"
   end
 
   test "should handle missing parameters" do
@@ -49,8 +49,8 @@ class PostUserEndpointTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
 
     response_body = JSON.parse(@response.body)
-    assert_includes response_body.keys, "errors"
-    assert_includes response_body["errors"]["name"], "can't be blank"
-    assert_includes response_body["errors"]["biography"], "can't be blank"
+    assert_includes response_body.keys, "error"
+    # Now we get a combined error message string
+    assert_includes response_body["error"], "can't be blank"
   end
 end

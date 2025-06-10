@@ -79,16 +79,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: user_api_production
-    username: user_api
-    password: <%= ENV["USER_API_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: user_api_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: user_api_production_queue
-    migrations_paths: db/queue_migrate
+  <<: *default
+  database: user_api_production
+  username: user_api
+  password: <%= ENV["USER_API_DATABASE_PASSWORD"] %>
