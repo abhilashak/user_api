@@ -8,7 +8,7 @@ class IdEndpointTest < ActionDispatch::IntegrationTest
     # Verify response is a valid UUID
     uuid = JSON.parse(@response.body)["id"]
     assert uuid.present?
-    assert_match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/, uuid)
+    assert_valid_uuid_v4(uuid)
   end
 
   test "should respond within 50ms" do
