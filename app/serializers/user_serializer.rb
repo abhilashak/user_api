@@ -1,8 +1,8 @@
-# Handles serialization of User objects to JSON format
+# Serializes User objects to Camille-compatible hash format
 class UserSerializer
-  # Serializes a user object into a hash with properly formatted timestamps
+  # Serializes a user object to match Camille::Types::User format
   # @param [User] user The user object to serialize
-  # @return [Hash] A hash containing user attributes with formatted timestamps
+  # @return [Hash] A hash matching Camille type definition
   def self.serialize(user)
     {
       id: user.id,
